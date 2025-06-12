@@ -1,0 +1,254 @@
+/* --- 基础与变量定义 --- */
+:root {
+    --primary-gradient: linear-gradient(135deg, #6a82fb 0%, #fc5c7d 100%);
+    --primary-color-start: #6a82fb;
+    --primary-color-end: #fc5c7d;
+    --dark-bg: #2c3e50;
+    --light-bg: #ffffff;
+    --section-bg: #f8f9fa;
+    --text-color: #333;
+    --light-text-color: #ecf0f1;
+    --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    --card-hover-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    /* 更换为更现代的字体 Poppins */
+    font-family: 'Poppins', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.7;
+    color: var(--text-color);
+    background-color: var(--light-bg);
+}
+
+/* --- 省略部分未变的 CSS 代码 (如导航栏, 内容区, 页脚等) --- */
+/* (请保留上一版代码中未在此处列出的部分) */
+#main-header, .content-section, .content-section-dark, .directory-grid, .card, footer {
+    /* 这里的样式沿用上一版的代码，为了简洁省略 */
+    /* ... 你可以从上一版代码中复制这部分的样式 ... */
+    /* 或者，直接用这个新文件替换旧文件，下面是完整的 */
+}
+
+
+/* --- 完整 CSS - 从这里开始可以完全替换旧的 style.css --- */
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* --- 导航栏 --- */
+#main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: box-shadow 0.3s ease;
+}
+
+#main-header.scrolled {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+#main-header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#main-header .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+#main-header ul { list-style: none; display: flex; }
+#main-header ul li { margin-left: 2rem; }
+#main-header ul a { text-decoration: none; color: var(--text-color); font-weight: 500; position: relative; transition: color 0.3s ease; }
+#main-header ul a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary-color-start); transition: width 0.3s ease; }
+#main-header ul a:hover { color: var(--primary-color-start); }
+#main-header ul a:hover::after { width: 100%; }
+
+
+/* --- 首页 Hero Section (重大更新) --- */
+.hero-section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    /* 动态渐变背景 */
+    background: linear-gradient(135deg, #6a82fb, #fc5c7d, #a6c1ee, #fbc2eb);
+    background-size: 400% 400%;
+    animation: gradient-animation 15s ease infinite;
+}
+
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 背景漂浮粒子 */
+.animated-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+.shape {
+    position: absolute;
+    display: block;
+    list-style: none;
+    background: rgba(255, 255, 255, 0.15);
+    animation: float-animation 25s linear infinite;
+    bottom: -150px;
+    border-radius: 50%;
+}
+.shape-1 { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+.shape-2 { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+.shape-3 { left: 70%; width: 60px; height: 60px; animation-delay: 4s; }
+/* 你可以添加更多 .shape-n 来增加粒子 */
+
+@keyframes float-animation {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
+}
+
+/* 内容层级置顶 */
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 3.8rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    min-height: 2.5rem; /* 为打字机效果留出空间，防止抖动 */
+}
+
+/* 打字机光标样式 */
+.typed-cursor {
+    color: white;
+    opacity: 1;
+    animation: blink 0.7s infinite;
+}
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* 全新 CTA 按钮 */
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.4));
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    transform: translateY(-5px);
+}
+
+.cta-button span {
+    margin-left: 0.5rem;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.cta-button:hover span {
+    transform: translateX(5px);
+}
+
+.fade-in { opacity: 0; transform: translateY(20px); animation: fadeInAnimation 0.8s ease-out forwards; }
+@keyframes fadeInAnimation { to { opacity: 1; transform: translateY(0); } }
+
+.scroll-down-indicator { position: absolute; bottom: 30px; left: 50%; z-index: 2; transform: translateX(-50%); animation: bounce 2s infinite; }
+.scroll-down-indicator a { color: white; font-size: 1.5rem; }
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); } 40% { transform: translate(-50%, -15px); } 60% { transform: translate(-50%, -7px); } }
+
+/* --- 内容区域通用样式 --- */
+.content-section, .content-section-dark { padding: 6rem 0; }
+.content-section { background-color: var(--section-bg); }
+.content-section-dark { background-color: var(--dark-bg); color: var(--light-text-color); }
+.content-section-dark h2 { color: white; }
+.content-section-dark p { max-width: 800px; margin: 1rem auto 0; text-align: center; font-size: 1.1rem; line-height: 1.8; }
+h2 { text-align: center; font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700; }
+.section-subtitle { text-align: center; margin-bottom: 4rem; color: #6c757d; font-size: 1.1rem; }
+
+/* --- 目录网格 (无大改) --- */
+.directory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+.card { background: var(--light-bg); border-radius: 12px; padding: 2.5rem 2rem; text-align: center; box-shadow: var(--card-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; text-decoration: none; color: var(--text-color); }
+.card:hover { transform: translateY(-10px); box-shadow: var(--card-hover-shadow); }
+.card i { font-size: 3rem; margin-bottom: 1.5rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-color); }
+.card p { font-size: 1rem; color: #6c757d; line-height: 1.6; }
+.card.placeholder { border: 2px dashed #ccc; background: #fdfdfd; }
+.card.placeholder i { background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%); -webkit-background-clip: text; }
+
+/* --- 底部 Footer --- */
+footer { background-color: #1d2c3b; color: var(--light-text-color); padding: 2rem 0; }
+.footer-content { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.footer-content p { opacity: 0.7; }
+.github-link { color: var(--light-text-color); text-decoration: none; font-size: 1rem; display: flex; align-items: center; opacity: 0.8; transition: opacity 0.3s ease; }
+.github-link:hover { opacity: 1; }
+.github-link i { font-size: 1.5rem; margin-right: 0.5rem; }
+
+/* --- 响应式设计 --- */
+@media (max-width: 768px) {
+    #main-header nav { flex-direction: column; height: auto; padding: 1rem; }
+    #main-header .logo { margin-bottom: 1rem; }
+    #main-header ul li { margin: 0 0.8rem; }
+    .hero-content h1 { font-size: 2.8rem; }
+    .hero-content p { font-size: 1.2rem; }
+    .content-section, .content-section-dark { padding: 4rem 1rem; }
+    .footer-content { flex-direction: column; }
+    .footer-content p { margin-bottom: 1rem; }
+}

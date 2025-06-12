@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你的大学生活指北</title>
+    <!-- 引入新的字体 Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- 顶部导航栏 -->
+    <header id="main-header">
+        <nav>
+            <a href="#home" class="logo">你的大学生活指北</a>
+            <ul>
+                <li><a href="#home">首页</a></li>
+                <li><a href="#directory">目录</a></li>
+                <li><a href="#about">关于</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section 1: 首页 (Home) -->
+        <section id="home" class="hero-section">
+            <!-- 背景动效容器 -->
+            <div class="animated-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+
+            <div class="hero-content">
+                <h1 class="fade-in">你的大学生活指北</h1>
+                <!-- 用于打字机效果的容器 -->
+                <p class="fade-in" style="animation-delay: 0.3s;"><span id="typed-subtitle"></span></p>
+                <!-- 全新的按钮 -->
+                <a href="#directory" class="cta-button fade-in" style="animation-delay: 0.6s;">
+                    开始探索 <span>→</span>
+                </a>
+            </div>
+            <div class="scroll-down-indicator">
+                <a href="#directory"><i class="fas fa-chevron-down"></i></a>
+            </div>
+        </section>
+
+        <!-- Section 2: 目录 (Directory) -->
+        <section id="directory" class="content-section">
+            <div class="container">
+                <h2>目录 | Contents</h2>
+                <p class="section-subtitle">点击卡片，开启你的探索之旅。</p>
+                <div class="directory-grid">
+                    <!-- 你的目录卡片... -->
+                    <a href="pages/academic.html" class="card">
+                        <i class="fa-solid fa-book-open"></i>
+                        <h3>学业指南</h3>
+                        <p>课程选择、学习方法、考试技巧、科研竞赛...</p>
+                    </a>
+                    <a href="pages/life.html" class="card">
+                        <i class="fa-solid fa-utensils"></i>
+                        <h3>生活百事</h3>
+                        <p>宿舍攻略、校园美食、交通出行、安全须知...</p>
+                    </a>
+                    <a href="pages/clubs.html" class="card">
+                        <i class="fa-solid fa-users"></i>
+                        <h3>社团活动</h3>
+                        <p>百团大战、兴趣社团、学生组织、志愿服务...</p>
+                    </a>
+                    <a href="pages/future.html" class="card">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <h3>未来规划</h3>
+                        <p>考研深造、求职就业、出国留学、实习经验...</p>
+                    </a>
+                    <a href="#" class="card placeholder">
+                        <i class="fa-solid fa-plus"></i>
+                        <h3>更多内容</h3>
+                        <p>正在建设中，敬请期待！</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: 关于 (About) -->
+        <section id="about" class="content-section-dark">
+            <div class="container">
+                <h2>关于 | About</h2>
+                <p>
+                    “你的大学生活指北”是一个开源的、由学生群体共同维护的知识库项目。我们深知大学四年充满了机遇与挑战，也伴随着许多困惑与迷茫。
+                    创建这个Wiki的初衷，是希望将学长学姐们的宝贵经验、实用信息系统地整理和沉淀下来，为每一位新同学提供一份温暖而可靠的“指北”。
+                    我们相信，分享与互助能让每个人的大学生活都变得更加精彩。欢迎你的加入，共同完善这份指北！
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部版权 -->
+    <footer>
+        <div class="container footer-content">
+            <p>© 2024 你的大学生活指北. All Rights Reserved.</p>
+            <a href="https://github.com/JohnMing143/ourlife" target="_blank" class="github-link">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+        </div>
+    </footer>
+    
+    <!-- 引入 Typed.js 库 -->
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

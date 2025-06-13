@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025大学新生电脑选购指南 - 交互式应用 </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans SC', sans-serif; }
+        .smooth-scroll { scroll-behavior: smooth; }
+        .gradient-bg { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
+        .option-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .option-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .option-card.selected { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); }
+        .section-hidden { display: none; }
+        .chart-container { position: relative; width: 100%; max-width: 500px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+        .fade-in { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Slower bounce animation */
+        @keyframes slow-bounce {
+          0%, 100% {
+            transform: translateY(-15%);
+            animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+          }
+          50% {
+            transform: translateY(0);
+            animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+          }
+        }
+        .slow-bounce-anim {
+          animation: slow-bounce 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 smooth-scroll">
+
+    <main class="container mx-auto px-4 py-8 md:py-12">
+
+        <section id="welcome" class="text-center py-12 md:py-16 gradient-bg rounded-2xl shadow-lg fade-in">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">2025大学新生电脑选购指南 </h1>
+            <p class="text-base sm:text-lg md:text-xl text-gray-700 max-w-3xl mx-auto px-2">驾驭前沿科技！本应用将引导您根据专业和需求，找到最适合您的大学电脑。</p>
+            <div class="mt-8 text-center slow-bounce-anim cursor-pointer" onclick="document.getElementById('step1').scrollIntoView({ behavior: 'smooth' });">
+                <span class="text-lg text-gray-700">向下滑动开始</span>
+                <svg class="w-6 h-6 text-gray-700 mx-auto mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+        </section>
+
+        <section id="step1" class="mt-16 pt-8 fade-in">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-2">第一步：选择电脑形态</h2>
+                <p class="text-gray-600 mb-8">您更看重便携移动，还是极致性能？</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div id="laptop-choice" class="option-card cursor-pointer bg-white p-6 md:p-8 rounded-xl border-2 border-gray-200 text-center" onclick="selectFormFactor('laptop')">
+                    <div class="text-5xl md:text-6xl mb-4">💻</div>
+                    <h3 class="text-2xl font-bold mb-2">笔记本电脑</h3>
+                    <p class="text-gray-600">随时随地学习，兼顾便携与性能。</p>
+                </div>
+                <div id="desktop-choice" class="option-card cursor-pointer bg-white p-6 md:p-8 rounded-xl border-2 border-gray-200 text-center" onclick="selectFormFactor('desktop')">
+                    <div class="text-5xl md:text-6xl mb-4">🖥️</div>
+                    <h3 class="text-2xl font-bold mb-2">台式机</h3>
+                    <p class="text-gray-600">追求极致性能、散热与升级潜力。</p>
+                </div>
+            </div>
+            <div id="form-factor-details" class="mt-8 max-w-4xl mx-auto section-hidden"></div>
+        </section>
+
+        <section id="os-consideration-section" class="mt-16 pt-8 section-hidden fade-in">
+            <div id="os-consideration" class="max-w-4xl mx-auto bg-amber-50 border-l-4 border-amber-400 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-bold mb-4 text-amber-800">重要：操作系统与软件兼容性</h3>
+                <p class="text-amber-700">在选择电脑前，了解操作系统（OS）与您专业所需软件的兼容性至关重要。部分工程、设计和科学软件仅在特定操作系统（通常是Windows）上提供最佳支持。错误的选择可能导致您无法顺利完成学业任务。<b>强烈建议在购买前咨询院系或专业学长学姐，确认软件要求</b>。</p>
+            </div>
+        </section>
+        
+        <section id="step2" class="mt-16 pt-8 section-hidden fade-in">
+             <div class="text-center">
+                <h2 class="text-3xl font-bold mb-2">第二步：明确您的需求</h2>
+                <p class="text-gray-600 mb-8">您的专业方向和个人兴趣是关键。</p>
+            </div>
+            <div id="desktop-options-wrapper" class="max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-md">
+                 <div id="desktop-specific-options">
+                    <div class="mb-6">
+                        <label for="major-select" class="block text-lg font-bold text-gray-700 mb-2">学科领域：</label>
+                        <select id="major-select" class="w-full p-3 border border-gray-300 rounded-lg text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                             <option value="humanities">人文社科类 (文/史/哲/法/经管等)</option>
+                             <option value="stem">通用STEM类 (理/工/农/医等)</option>
+                             <option value="creative">创意设计类 (设计/媒体/建筑等)</option>
+                             <option value="cs">计算机科学与软件工程</option>
+                             <option value="ai_major">人工智能前沿 (AI/ML专业)</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+                        <span class="block text-lg font-bold text-gray-700 mb-2">特殊需求 (可多选):</span>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0">
+                            <label class="flex items-center text-lg"><input type="checkbox" id="gaming-checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"><span class="ml-2">重度游戏</span></label>
+                            <label class="flex items-center text-lg"><input type="checkbox" id="ai-checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"><span class="ml-2">AI/机器学习</span></label>
+                        </div>
+                    </div>
+                </div>
+                 <div>
+                    <span class="block text-lg font-bold text-gray-700 mb-2">平台偏好：</span>
+                    <div class="flex items-center">
+                        <label class="flex items-center text-lg">
+                            <input type="checkbox" id="mac-checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <span class="ml-2">我考虑使用 Mac</span>
+                        </label>
+                    </div>
+                    <p id="mac-warning" class="text-sm text-amber-600 mt-2 section-hidden">温馨提示：理工科专业因特殊软件兼容性问题，选择Mac前务必咨询本专业学长学姐。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="recommendation-dashboard" class="mt-16 pt-8 section-hidden fade-in">
+            <!-- Desktop Panel -->
+            <div id="desktop-recommendation-panel" class="section-hidden">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold mb-2">您的个性化PC配置建议</h2>
+                    <p id="recommendation-intro" class="text-gray-600 mb-8 max-w-3xl mx-auto">根据您的选择，我们生成了以下建议。您可以自由调整内存、硬盘和屏幕，价格计算器将实时更新。</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-md">
+                        <h3 class="text-xl font-bold text-center mb-4">需求优先级分析</h3>
+                        <div class="chart-container">
+                            <canvas id="priorityChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-3">
+                        <div class="space-y-6">
+                            <div class="bg-white p-6 rounded-2xl shadow-md"><h4 class="font-bold text-lg mb-2">CPU 性能建议</h4><p id="cpu-recommendation" class="text-lg text-blue-600 font-semibold"></p></div>
+                            <div class="bg-white p-6 rounded-2xl shadow-md"><h4 class="font-bold text-lg mb-2">GPU 性能建议</h4><p id="gpu-recommendation" class="text-lg text-blue-600 font-semibold"></p></div>
+                            <div class="bg-white p-6 rounded-2xl shadow-md"><h4 class="font-bold text-lg mb-2">内存 (RAM)</h4><select id="ram-select" class="w-full p-2 border border-gray-300 rounded-lg text-base"></select></div>
+                            <div class="bg-white p-6 rounded-2xl shadow-md"><h4 class="font-bold text-lg mb-2">硬盘 (SSD)</h4><select id="ssd-select" class="w-full p-2 border border-gray-300 rounded-lg text-base"></select></div>
+                            <div class="bg-white p-6 rounded-2xl shadow-md"><h4 class="font-bold text-lg mb-2">显示屏</h4><select id="display-select" class="w-full p-2 border border-gray-300 rounded-lg text-base"></select></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="price-calculator" class="mt-8 bg-blue-50 border-t-4 border-blue-500 rounded-b-lg p-6 shadow-lg text-center">
+                    <h3 class="text-xl font-bold text-gray-800">PC配置总价估算器</h3>
+                    <p class="text-4xl font-bold text-blue-600 my-2" id="price-display">¥0 - ¥0</p>
+                    <p class="text-sm text-gray-500">此价格已考量平台优惠，为根据所选核心硬件估算，未包含品牌溢价，仅供参考。</p>
+                </div>
+            </div>
+            
+            <!-- Laptop Panel -->
+            <div id="laptop-recommendation-panel" class="section-hidden">
+                 <div class="text-center">
+                    <h2 class="text-3xl font-bold mb-2">笔记本型号推荐</h2>
+                    <p class="text-gray-600 mb-8 max-w-3xl mx-auto">请根据您的专业和预算，查看更有针对性的市场参考型号。</p>
+                </div>
+                <div class="max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-md space-y-6">
+                    <div>
+                        <label for="laptop-major-select" class="block text-lg font-bold text-gray-700 mb-2">学科领域：</label>
+                        <select id="laptop-major-select" class="w-full p-3 border border-gray-300 rounded-lg text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                             <option value="humanities">人文社科类 (文/史/哲/法/经管等)</option>
+                             <option value="stem">通用STEM类 (理/工/农/医等)</option>
+                             <option value="creative">创意设计类 (设计/媒体/建筑等)</option>
+                             <option value="cs">计算机科学与软件工程</option>
+                             <option value="ai_major">人工智能前沿 (AI/ML专业)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span class="block text-lg font-bold text-gray-700 mb-2">特殊需求 (可多选):</span>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0">
+                            <label class="flex items-center text-lg"><input type="checkbox" id="laptop-gaming-checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"><span class="ml-2">重度游戏</span></label>
+                            <label class="flex items-center text-lg"><input type="checkbox" id="laptop-ai-checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"><span class="ml-2">AI/机器学习</span></label>
+                        </div>
+                    </div>
+                     <div>
+                        <label for="price-range-select" class="block text-lg font-bold text-gray-700 mb-2">预算范围：</label>
+                        <select id="price-range-select" class="w-full p-3 border border-gray-300 rounded-lg text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></select>
+                    </div>
+                </div>
+                <div id="laptop-models-display" class="mt-8 max-w-4xl mx-auto"></div>
+            </div>
+
+            <!-- Mac Panel -->
+            <div id="mac-recommendation-panel" class="section-hidden">
+                 <div class="text-center"><h2 class="text-3xl font-bold mb-2">您的个性化Mac选购建议</h2><p class="text-gray-600 mb-8 max-w-3xl mx-auto">基于您的专业和使用强度，我们推荐以下Mac产品线。</p></div>
+                <div class="max-w-4xl mx-auto space-y-8">
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-md"><h3 class="text-2xl font-bold mb-4 flex items-center"><span class="text-3xl mr-3">💻</span> 笔记本 (MacBook)</h3><div id="mac-laptop-recommendation" class="space-y-4"></div></div>
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-md"><h3 class="text-2xl font-bold mb-4 flex items-center"><span class="text-3xl mr-3">🖥️</span> 台式机 (Mac)</h3><div id="mac-desktop-recommendation" class="space-y-4"></div></div>
+                </div>
+            </div>
+
+            <div id="screen-tech-comparison" class="mt-12">
+                <h3 class="text-2xl font-bold mb-4 text-center">主流屏幕技术对比</h3>
+                <div class="overflow-x-auto"><table class="w-full text-left border-collapse bg-white rounded-lg shadow-md"><thead><tr class="bg-gray-100"><th class="p-4 font-bold border-b">特性</th><th class="p-4 font-bold border-b">LCD / IPS</th><th class="p-4 font-bold border-b">OLED</th><th class="p-4 font-bold border-b">Mini-LED</th></tr></thead><tbody><tr><td class="p-4 border-b font-semibold">优势</td><td class="p-4 border-b">技术成熟，成本低，亮度较高，无烧屏风险</td><td class="p-4 border-b">极致对比度 (纯黑)，色彩鲜艳，响应速度快，更轻薄</td><td class="p-4 border-b">极高亮度，对比度接近OLED，色彩表现优秀，寿命长</td></tr><tr><td class="p-4 border-b font-semibold">劣势</td><td class="p-4 border-b">对比度有限，黑色表现为深灰，可能漏光</td><td class="p-4 border-b">长期显示静态图像有烧屏风险，峰值亮度通常低于Mini-LED</td><td class="p-4 border-b">成本高，功耗大，少数情况下分区边缘可能出现光晕</td></tr><tr class="bg-gray-50"><td class="p-4 font-semibold">适合人群</td><td class="p-4">预算有限，通用性需求，对画质无极致追求的用户</td><td class="p-4">影音爱好者，创意设计工作者，追求顶级画质的用户</td><td class="p-4">需要极致HDR效果，高亮度环境使用者，专业内容创作者</td></tr></tbody></table></div>
+            </div>
+
+            <div id="gaming-laptop-section" class="mt-12 bg-white p-8 rounded-2xl shadow-md section-hidden">
+                <h3 class="text-2xl font-bold mb-4">特别考量：“游戏本”是您的优选吗？</h3>
+                <p class="text-gray-700 mb-4">在2025年，“游戏本”已成为“高性能移动工作站”的代名词。基于您对高性能或游戏的需求，这类产品是值得考虑的选择。</p>
+                 <div class="grid md:grid-cols-2 gap-6"><div><h4 class="font-semibold text-lg text-green-600 mb-2">优点</h4><ul class="list-disc list-inside space-y-1 text-gray-600"><li>顶级的CPU/GPU性能</li><li>高刷新率屏幕</li><li>强大的散热系统</li><li>性价比高</li></ul></div><div><h4 class="font-semibold text-lg text-red-600 mb-2">缺点</h4><ul class="list-disc list-inside space-y-1 text-gray-600"><li>续航短</li><li>笨重</li><li>噪音大</li><li>外观设计可能过于张扬</li></ul></div></div>
+            </div>
+             <div id="os-consideration" class="mt-12 bg-amber-50 border-l-4 border-amber-400 p-6 rounded-lg shadow-md section-hidden">
+                <h3 class="text-2xl font-bold mb-4 text-amber-800">台式机操作系统说明</h3>
+                <p id="os-details" class="text-amber-700"></p>
+            </div>
+        </section>
+        
+        <section id="final-advice" class="mt-16 pt-8 section-hidden fade-in">
+             <div class="text-center"><h2 class="text-3xl font-bold mb-2">最后一步：精明消费与准备</h2><p class="text-gray-600 mb-8">硬件之外，这些策略能让您的大学生活更顺畅。</p></div>
+            <div class="max-w-4xl mx-auto space-y-4">
+                <div class="accordion-item bg-white rounded-xl shadow-sm"><button class="accordion-header w-full text-left p-6 font-bold text-xl flex justify-between items-center" onclick="toggleAccordion(this)"><span>💰 省钱技巧与补贴</span><span class="transform transition-transform duration-300">▼</span></button><div class="accordion-content overflow-hidden max-h-0 transition-max-height duration-500 ease-in-out"><div class="p-6 pt-0 text-gray-700"><ul class="list-disc list-inside space-y-2"><li><strong>教育优惠：</strong>苹果、联想、戴尔等品牌官网通常有教育商店，需通过学生身份验证购买。</li><li><strong>软件折扣：</strong>Microsoft 365、Adobe Creative Cloud等常用软件均有大幅学生优惠。</li><li><strong>国家/院校补贴：</strong>主动查询学校的财政资助办公室，了解是否有专项助学金或补贴。</li><li><strong>返校季促销：</strong>每年夏季的“返校季”是各大厂商促销力度最大的时期。</li></ul></div></div></div>
+                <div class="accordion-item bg-white rounded-xl shadow-sm"><button class="accordion-header w-full text-left p-6 font-bold text-xl flex justify-between items-center" onclick="toggleAccordion(this)"><span>⌨️ 人体工学与必备配件</span><span class="transform transition-transform duration-300">▼</span></button><div class="accordion-content overflow-hidden max-h-0 transition-max-height duration-500 ease-in-out"><div class="p-6 pt-0 text-gray-700"><p class="mb-4">长时间使用电脑，健康的姿势至关重要。这并非奢侈，而是对您长期健康的投资。</p><ul class="list-disc list-inside space-y-2"><li><strong>笔记本支架：</strong>将屏幕抬高至视线水平，保护颈椎。</li><li><strong>外接键盘和鼠标：</strong>配合支架使用，让手腕和手臂处于自然放松的位置。</li><li><strong>扩展坞：</strong>一根线缆连接所有外设，提升桌面整洁度和便利性。</li></ul></div></div></div>
+                <div class="accordion-item bg-white rounded-xl shadow-sm"><button class="accordion-header w-full text-left p-6 font-bold text-xl flex justify-between items-center" onclick="toggleAccordion(this)"><span>🔒 数据备份与网络安全</span><span class="transform transition-transform duration-300">▼</span></button><div class="accordion-content overflow-hidden max-h-0 transition-max-height duration-500 ease-in-out"><div class="p-6 pt-0 text-gray-700"><p class="mb-4">您的作业、论文和项目成果是无价的，请务必做好备份。</p><ul class="list-disc list-inside space-y-2"><li><strong>云存储：</strong>利用学校提供的OneDrive或个人购买的云服务，自动同步重要文件。</li><li><strong>外置硬盘：</strong>定期使用系统自带工具进行本地备份。</li><li><strong>网络安全：**使用强密码和双因素认证，警惕钓鱼邮件和不明链接。</li></ul></div></div></div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-6 text-gray-500 text-sm">
+        <p>基于超级小铭和超级ai生成。</p>
+        <p>&copy; 2025 ming143</p>
+    </footer>
+
+    <script>
+        const laptopModelsData = {
+            "2500-3500": [
+                { name: "荣耀笔记本 X16 超清版", type: "all-rounder" }, { name: "联想 来酷Pro 14 2025", type: "thin-light" },
+                { name: "机械革命 无界14X", type: "thin-light" }, { name: "机械革命 无界14 Air", type: "thin-light" }, { name: "荣耀笔记本 X14 锐龙版", type: "thin-light" }
+            ],
+            "3500-4500": [
+                { name: "宏碁 非凡Go Air", type: "thin-light" }, { name: "ThinkPad E14 2025", type: "all-rounder" },
+                { name: "机械革命 无界15X Pro 暴风雪", type: "all-rounder" }, { name: "机械革命 蛟龙16K", type: "gaming" }, { name: "机械革命 蛟龙15 Pro", type: "gaming" }
+            ],
+            "4500-5500": [
+                { name: "惠普 星Book Pro 13 2025", type: "thin-light" }, { name: "荣耀 MagicBook Pro 14", type: "all-rounder" },
+                { name: "联想 小新Pro14 GT 酷睿版", type: "all-rounder" }, { name: "联想 小新Pro14 GT 锐龙版", type: "all-rounder" },
+                { name: "REDMI Book Pro 14 2025", type: "all-rounder" }, { name: "荣耀 MagicBook Pro 16 核显版", type: "all-rounder" },
+                { name: "联想 ThinkBook 14+ 2025", type: "all-rounder" }, { name: "联想 ThinkBook 16+ 2025", type: "all-rounder" },
+                { name: "机械革命 蛟龙16 Pro 2025", type: "gaming" }, { name: "REDMI Book 16 2025", type: "all-rounder" }
+            ],
+            "5500-6500": [
+                { name: "华硕 灵耀14 2025", type: "thin-light" }, { name: "联想 ThinkBook X AI 2025 元启版", type: "thin-light" }, { name: "惠普 OMEN 暗影精灵11", type: "gaming" }
+            ],
+            "6500-7500": [
+                { name: "惠普 星Book X 14 酷睿版", type: "thin-light" }, { name: "惠普 星Book X 14 锐龙版", type: "thin-light" },
+                { name: "华硕 灵耀14 Air", type: "thin-light" }, { name: "联想 YOGA Air 14 Aura", type: "thin-light" }, { name: "联想 拯救者 R7000P 2025", type: "gaming" }
+            ],
+            "7500-8500": [
+                { name: "苹果 MacBook Air", type: "mac" }, { name: "华硕 灵耀16 Air", type: "thin-light" },
+                { name: "华硕 天选Air 2025", type: "all-rounder" }, { name: "ROG 魔霸新锐 2025", type: "gaming" },
+                { name: "七彩虹 隐星P16 Pro", type: "gaming" }, { name: "雷神 猎刃S 2025", type: "gaming" },
+                { name: "机械革命 蛟龙16 Pro 2025", type: "gaming" }, { name: "机械师 曙光16S", type: "gaming" }
+            ],
+            "8500-10000": [
+                { name: "荣耀 MagicBook Pro16 HUNTER", type: "gaming" }
+            ],
+            "10000-20000": [
+                { name: "LG gram Pro 16", type: "thin-light" }, { name: "LG gram Pro 17", type: "thin-light" },
+                { name: "ThinkPad X9-15 Aura AI元启", type: "thin-light" }, { name: "联想 YOGA Air X", type: "thin-light" },
+                { name: "苹果 MacBook Pro 14", type: "mac" }, { name: "ROG 幻14 Air", type: "all-rounder" },
+                { name: "ROG 幻X 2025", type: "all-rounder" }, { name: "联想 拯救者 Y9000P 至尊版", type: "gaming" },
+                { name: "惠普 OMEN 暗影精灵 MAX", type: "gaming" }, { name: "ROG 魔霸9 X3D", type: "gaming" },
+                { name: "机械革命 耀世16 Ultra", type: "gaming" }, { name: "机械师 曙光16 Pro", type: "gaming" }
+            ],
+            "20000+": [
+                { name: "苹果 MacBook Pro 16", type: "mac" }, { name: "雷蛇 灵刃16 2025", type: "gaming" },
+                { name: "机械革命 苍龙16 Ultra X3D", type: "gaming" }, { name: "微星 泰坦18 Pro AI 2025", type: "gaming" },
+                { name: "微星 泰坦18 Pro X3D锐龙版", type: "gaming" }
+            ],
+            notes: {
+                "8500-10000": "这个价位段选择确实少，基本都是低价位段的“高配版”。ThinkBook 16p新款待上架，真有需要也可以考虑一下。"
+            }
+        };
+        const recommendationData = {
+            components: {
+                ram: { r1: { name: "16GB (起点)", price: 0 }, r2: { name: "32GB (推荐甜点)", price: 700 }, r3: { name: "64GB (专业之选)", price: 2000 } },
+                ssd: { s1: { name: "1TB PCIe 4.0 (推荐起点)", price: 0 }, s2: { name: "2TB PCIe 4.0 (充裕容量)", price: 600 }, s3: { name: "2TB PCIe 5.0 (极致速度)", price: 1500 } },
+                display: { d1: { name: "高刷 LCD/IPS 屏 (均衡实用)", price: 0 }, d2: { name: "OLED 屏 (色彩标杆)", price: 900 }, d3: { name: "Mini-LED 屏 (高亮HDR)", price: 1600 } }
+            },
+            majors: {
+                humanities: {
+                    name: "人文社科类",
+                    basePriceRange: { desktop: [3800, 4800] }, priorities: [4, 9, 9, 7, 5], specs: { ram: "r1", ssd: "s1", display: "d1" },
+                    cpu_rec: { desktop: "Intel 酷睿 i5-14600F" }, gpu_rec: { desktop: "新一代集成显卡" }, os: "Windows/macOS均可。",
+                    laptop_types: ["thin-light", "all-rounder"],
+                    mac_rec: { laptop_light: "MacBook Air (M4芯片): 轻薄便携，满足所有日常学习和写作需求。", laptop_heavy: "MacBook Pro 14 (M4芯片): 如有轻度视频剪辑需求，Pro能提供更好的性能和屏幕。", desktop_light: "Mac mini (M4芯片) 或 iMac (M4芯片): 桌面环境下的优雅高效之选。", desktop_heavy: "对于人文社科，通常无需Mac Studio。" }
+                },
+                stem: {
+                    name: "通用STEM类",
+                    basePriceRange: { desktop: [5800, 7200] }, priorities: [8, 7, 6, 7, 8], specs: { ram: "r2", ssd: "s1", display: "d1" },
+                    cpu_rec: { desktop: "高性能推荐 AMD 锐龙7 9700X" }, gpu_rec: { desktop: "RTX 5060 性能级" }, os: "强烈建议使用Windows (x86)！许多专业软件在Windows上有最佳兼容性。请务必咨询院系要求。",
+                    laptop_types: ["all-rounder", "gaming"],
+                    mac_rec: { laptop_light: "不推荐。请优先考虑Windows PC以确保软件兼容性。", laptop_heavy: "MacBook Pro (M4 Pro芯片): 如已确认专业软件兼容，M4 Pro可应对复杂计算和数据可视化。", desktop_light: "不推荐。请优先考虑Windows PC。", desktop_heavy: "Mac Studio (M4 Max芯片): 仅在极少数已确认兼容的科研场景下考虑。" }
+                },
+                creative: {
+                    name: "创意设计类",
+                    basePriceRange: { desktop: [8500, 11500] }, priorities: [9, 6, 5, 10, 8], specs: { ram: "r2", ssd: "s2", display: "d2" },
+                    cpu_rec: { desktop: "高性能游戏/设计推荐 AMD 锐龙7 9800X3D" }, gpu_rec: { desktop: "RTX 5070 Ti 16GB 性能级" }, os: "macOS 和 Windows 均为主流选择。务必确认院系是否对NVIDIA显卡有特殊要求。",
+                    laptop_types: ["all-rounder", "gaming"],
+                    mac_rec: { laptop_light: "MacBook Air (M4芯片): 足够应对平面设计和轻度视频剪辑。", laptop_heavy: "MacBook Pro (M4 Pro或M4 Max芯片): 专业视频剪辑、3D建模和音乐制作的理想选择。", desktop_light: "iMac (M4芯片): 适合以设计为中心的桌面环境。", desktop_heavy: "Mac Studio (M4 Max或M4 Ultra芯片): 顶级性能，满足最苛刻的专业创意工作流。" }
+                },
+                cs: {
+                    name: "计算机科学",
+                    basePriceRange: { desktop: [5200, 6800] }, priorities: [8, 8, 7, 7, 9], specs: { ram: "r2", ssd: "s1", display: "d1" },
+                    cpu_rec: { desktop: "入门推荐 Intel 14600F, 高性能推荐 AMD 9700X" }, gpu_rec: { desktop: "新一代集成显卡或RTX 5060" }, os: "macOS (Unix基础)、Windows (WSL)、Linux 均可。务必确认院系是否有Windows专属工具要求。",
+                    laptop_types: ["thin-light", "all-rounder"],
+                    mac_rec: { laptop_light: "MacBook Air (M4芯片): 出色的编程入门机，尤其适合Web和移动开发。", laptop_heavy: "MacBook Pro (M4 Pro芯片): 需要运行虚拟机或进行大型项目编译时，Pro是更可靠的选择。", desktop_light: "Mac mini (M4芯片): 高性价比的桌面开发环境。", desktop_heavy: "Mac Studio (M4 Max芯片): 适合进行iOS原生开发或需要强大编译性能的场景。" }
+                },
+                ai_major: {
+                    name: "人工智能前沿",
+                    basePriceRange: { desktop: [11000, 15000] }, priorities: [10, 5, 4, 8, 10], specs: { ram: "r3", ssd: "s2", display: "d2" },
+                    cpu_rec: { desktop: "全能推荐 AMD 锐龙9 9950X3D" }, gpu_rec: { desktop: "RTX 5080 16GB+ 性能级" }, os: "Windows 或 Linux 是主流。由于CUDA生态，NVIDIA RTX 50系大显存显卡几乎是必需品。",
+                    laptop_types: ["gaming"],
+                    mac_rec: { laptop_light: "不推荐。AI学习严重依赖NVIDIA CUDA生态。", laptop_heavy: "MacBook Pro (M4 Max芯片): 仅适合利用苹果神经引擎进行模型推理和优化的特定方向。", desktop_light: "不推荐。", desktop_heavy: "Mac Studio (M4 Ultra芯片): 理由同上，仅限特定研究领域。" }
+                }
+            },
+            gaming_ai_upgrades: {
+                laptop_types: ["gaming"]
+            },
+            desktop_adjust: { priorities: [9, 2, 3, 8, 9] }
+        };
+
+        let selectedFormFactor = '', selectedMajor = 'humanities', hasGamingNeed = false, hasAINeed = false, considerMac = false;
+        let priorityChart;
+
+        const ui = {
+            majorSelect: document.getElementById('major-select'), laptopMajorSelect: document.getElementById('laptop-major-select'),
+            gamingCheckbox: document.getElementById('gaming-checkbox'), laptopGamingCheckbox: document.getElementById('laptop-gaming-checkbox'),
+            aiCheckbox: document.getElementById('ai-checkbox'), laptopAICheckbox: document.getElementById('laptop-ai-checkbox'),
+            macCheckbox: document.getElementById('mac-checkbox'), macWarning: document.getElementById('mac-warning'),
+            desktopPanel: document.getElementById('desktop-recommendation-panel'), macPanel: document.getElementById('mac-recommendation-panel'),
+            laptopPanel: document.getElementById('laptop-recommendation-panel'), cpuRecommendation: document.getElementById('cpu-recommendation'),
+            gpuRecommendation: document.getElementById('gpu-recommendation'), ramSelect: document.getElementById('ram-select'),
+            ssdSelect: document.getElementById('ssd-select'), displaySelect: document.getElementById('display-select'),
+            priceDisplay: document.getElementById('price-display'), macLaptopRec: document.getElementById('mac-laptop-recommendation'),
+            macDesktopRec: document.getElementById('mac-desktop-recommendation'), osDetails: document.getElementById('os-details'),
+            gamingLaptopSection: document.getElementById('gaming-laptop-section'), screenTechComparison: document.getElementById('screen-tech-comparison'),
+            priceRangeSelect: document.getElementById('price-range-select'), laptopModelsDisplay: document.getElementById('laptop-models-display')
+        };
+        
+        function initChart() {
+            if(document.getElementById('priorityChart')) {
+                priorityChart = new Chart(document.getElementById('priorityChart').getContext('2d'), {
+                    type: 'radar', data: { labels: ['性能', '便携性', '续航', '屏幕素质', '升级/战未来'], datasets: [{ label: '需求优先级', data: [0,0,0,0,0], backgroundColor: 'rgba(59, 130, 246, 0.2)', borderColor: 'rgba(59, 130, 246, 1)', borderWidth: 2, pointBackgroundColor: 'rgba(59, 130, 246, 1)' }] },
+                    options: { maintainAspectRatio: false, scales: { r: { suggestedMin: 0, suggestedMax: 10, ticks: {stepSize: 2} } }, plugins: { legend: { display: false } } }
+                });
+            }
+        }
+        
+        function selectFormFactor(factor) {
+            selectedFormFactor = factor;
+            document.getElementById('laptop-choice').classList.toggle('selected', factor === 'laptop');
+            document.getElementById('desktop-choice').classList.toggle('selected', factor === 'desktop');
+            const detailsDiv = document.getElementById('form-factor-details');
+            detailsDiv.innerHTML = factor === 'laptop' ? `<h3 class="text-xl font-bold mb-2">笔记本电脑：灵活性是关键</h3><p class="text-gray-700">适合绝大多数需要在教室、图书馆、宿舍等多地学习的学生。</p>` : `<h3 class="text-xl font-bold mb-2">台式机：为性能而生</h3><p class="text-gray-700">适合专业需求极端、有固定学习空间，且看重硬件升级和定制自由的学生。</p>`;
+            detailsDiv.classList.remove('section-hidden');
+            ['os-consideration-section', 'step2', 'recommendation-dashboard', 'final-advice'].forEach(id => document.getElementById(id).classList.remove('section-hidden'));
+            
+            if (factor === 'laptop') {
+                document.querySelector('#desktop-options-wrapper').classList.add('section-hidden');
+            } else {
+                 document.querySelector('#desktop-options-wrapper').classList.remove('section-hidden');
+            }
+
+            updateRecommendations();
+        }
+
+        function populateSelect(selectElement, options, selectedKey) {
+            selectElement.innerHTML = '';
+            for (const key in options) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = options[key].name;
+                if (key === selectedKey) option.selected = true;
+                selectElement.appendChild(option);
+            }
+        }
+
+        function updateRecommendations() {
+            if (!selectedFormFactor) return;
+            
+            considerMac = ui.macCheckbox.checked;
+            const isDesktop = selectedFormFactor === 'desktop';
+
+            if (isDesktop) {
+                if (considerMac) {
+                    showMacPanel(recommendationData.majors[ui.majorSelect.value]);
+                } else {
+                    showDesktopPanel();
+                }
+            } else { 
+                showLaptopPanel();
+            }
+        }
+
+        function showLaptopPanel() {
+            ui.desktopPanel.classList.add('section-hidden');
+            ui.macPanel.classList.add('section-hidden');
+            ui.laptopPanel.classList.remove('section-hidden');
+            ui.osDetails.parentElement.classList.add('section-hidden');
+            ui.gamingLaptopSection.classList.add('section-hidden');
+            ui.screenTechComparison.classList.remove('section-hidden');
+
+            const priceRanges = Object.keys(laptopModelsData).filter(key => key !== 'notes');
+            ui.priceRangeSelect.innerHTML = priceRanges.map(range => `<option value="${range}">${range}元</option>`).join('');
+            displayLaptopModels();
+        }
+
+        function displayLaptopModels() {
+            const selectedMajor = ui.laptopMajorSelect.value;
+            const gamingNeed = ui.laptopGamingCheckbox.checked;
+            const aiNeed = ui.laptopAICheckbox.checked;
+            const priceRange = ui.priceRangeSelect.value;
+            const macSelected = ui.macCheckbox.checked;
+
+            let targetTypes = recommendationData.majors[selectedMajor].laptop_types;
+            if (gamingNeed || aiNeed) {
+                targetTypes = recommendationData.gaming_ai_upgrades.laptop_types;
+            }
+
+            const models = laptopModelsData[priceRange] || [];
+            const filteredModels = models.filter(model => {
+                if(macSelected) return model.type === 'mac';
+                return targetTypes.includes(model.type);
+            });
+
+            let modelsHTML = '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">';
+            if (filteredModels.length > 0) {
+                modelsHTML += filteredModels.map(model => `
+                    <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
+                        <p class="font-semibold text-gray-800">${model.name}</p>
+                    </div>
+                `).join('');
+            } else {
+                modelsHTML += `<p class="col-span-full text-center text-gray-500 py-4">在此预算和专业需求下，暂无推荐型号。请尝试其他选项。</p>`;
+            }
+            modelsHTML += '</div>';
+
+            const note = laptopModelsData.notes[priceRange];
+            if (note) {
+                modelsHTML += `<p class="mt-4 text-sm text-gray-600 p-4 bg-gray-100 rounded-lg">${note}</p>`;
+            }
+            ui.laptopModelsDisplay.innerHTML = modelsHTML;
+        }
+
+        function showMacPanel(baseProfile) {
+            ui.desktopPanel.classList.add('section-hidden');
+            ui.laptopPanel.classList.add('section-hidden');
+            ui.macPanel.classList.remove('section-hidden');
+            ui.gamingLaptopSection.classList.add('section-hidden');
+            ui.osDetails.parentElement.classList.remove('section-hidden');
+            ui.screenTechComparison.classList.add('section-hidden');
+            
+            const macRecs = baseProfile.mac_rec;
+            ui.macLaptopRec.innerHTML = `<p><strong>轻度使用:</strong> ${macRecs.laptop_light}</p><p><strong>重度使用:</strong> ${macRecs.laptop_heavy}</p>`;
+            ui.macDesktopRec.innerHTML = `<p><strong>轻度使用:</strong> ${macRecs.desktop_light}</p><p><strong>重度使用:</strong> ${macRecs.desktop_heavy}</p>`;
+        }
+        
+        function showDesktopPanel() {
+            selectedMajor = ui.majorSelect.value; hasGamingNeed = ui.gamingCheckbox.checked; hasAINeed = ui.aiCheckbox.checked;
+            const baseProfile = recommendationData.majors[selectedMajor];
+            
+            ui.desktopPanel.classList.remove('section-hidden');
+            ui.macPanel.classList.add('section-hidden');
+            ui.laptopPanel.classList.add('section-hidden');
+            ui.osDetails.parentElement.classList.remove('section-hidden');
+            ui.gamingLaptopSection.classList.add('section-hidden');
+            ui.screenTechComparison.classList.remove('section-hidden');
+            
+            let finalPriorities = [...baseProfile.priorities];
+            let finalSpecs = {...baseProfile.specs};
+            let cpuRec = baseProfile.cpu_rec.desktop;
+            let gpuRec = baseProfile.gpu_rec.desktop;
+
+            if (hasGamingNeed) {
+                const gamingUpgrade = recommendationData.gaming_ai_upgrades.gaming;
+                finalPriorities = finalPriorities.map((p, i) => Math.max(p, gamingUpgrade.priorities[i]));
+                cpuRec = gamingUpgrade.desktop_cpu_override;
+                gpuRec = gamingUpgrade.gpu_override;
+            }
+
+            if (hasAINeed || selectedMajor === 'ai_major') {
+                const aiUpgrade = recommendationData.gaming_ai_upgrades.ai_interest;
+                finalPriorities = finalPriorities.map((p, i) => Math.max(p, aiUpgrade.priorities[i]));
+                cpuRec = aiUpgrade.desktop_cpu_override;
+                gpuRec = aiUpgrade.gpu_override;
+                finalSpecs.ram = aiUpgrade.ram_override;
+            }
+            
+            finalPriorities[1] = recommendationData.desktop_adjust.priorities[1]; 
+            finalPriorities[2] = recommendationData.desktop_adjust.priorities[2];
+            finalPriorities[4] = recommendationData.desktop_adjust.priorities[4];
+            
+            if(priorityChart) { priorityChart.data.datasets[0].data = finalPriorities; priorityChart.update(); }
+
+            ui.cpuRecommendation.textContent = cpuRec;
+            ui.gpuRecommendation.textContent = gpuRec;
+
+            populateSelect(ui.ramSelect, recommendationData.components.ram, finalSpecs.ram);
+            populateSelect(ui.ssdSelect, recommendationData.components.ssd, finalSpecs.ssd);
+            populateSelect(ui.displaySelect, recommendationData.components.display, finalSpecs.display);
+            calculatePrice();
+        }
+
+        function calculatePrice() {
+            if (!selectedMajor || !selectedFormFactor || considerMac || selectedFormFactor === 'laptop') return;
+            let [minPrice, maxPrice] = recommendationData.majors[selectedMajor].basePriceRange.desktop;
+
+            const priceFactors = [
+                recommendationData.components.ram[ui.ramSelect.value].price,
+                recommendationData.components.ssd[ui.ssdSelect.value].price,
+                recommendationData.components.display[ui.displaySelect.value].price,
+            ];
+            
+            const totalComponentPrice = priceFactors.reduce((acc, price) => acc + price, 0);
+            minPrice += totalComponentPrice;
+            maxPrice += totalComponentPrice;
+
+            ui.priceDisplay.textContent = `¥${minPrice} - ¥${maxPrice}`;
+        }
+
+        function toggleAccordion(headerElement) {
+            const content = headerElement.nextElementSibling; const arrow = headerElement.querySelector('span:last-child');
+            if (content.style.maxHeight) { content.style.maxHeight = null; arrow.style.transform = 'rotate(0deg)'; } 
+            else { content.style.maxHeight = content.scrollHeight + "px"; arrow.style.transform = 'rotate(180deg)';}
+        }
+        
+        window.addEventListener('load', () => {
+            initChart();
+            [ui.majorSelect, ui.gamingCheckbox, ui.aiCheckbox, ui.macCheckbox].forEach(el => {
+                if (el) el.addEventListener('change', updateRecommendations)
+            });
+            [ui.ramSelect, ui.ssdSelect, ui.displaySelect].forEach(el => {
+                if (el) el.addEventListener('change', calculatePrice)
+            });
+            [ui.laptopMajorSelect, ui.laptopGamingCheckbox, ui.laptopAICheckbox, ui.priceRangeSelect].forEach(el => {
+                if(el) el.addEventListener('change', displayLaptopModels)
+            });
+        });
+    </script>
+</body>
+</html>

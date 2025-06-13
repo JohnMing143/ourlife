@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI大学生生存指南Wiki</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Neutrals with Blue Accent -->
+    <!-- Application Structure Plan: The application is redesigned into a single-page, wiki-style layout with a fixed left-hand sidebar for navigation and a main content area on the right. This structure is ideal for a comprehensive guide, allowing users to see the overall structure at a glance and easily navigate between sections without losing context. On mobile, the sidebar collapses into a hamburger menu. This addresses the user's specific request for a wiki format with left-side navigation. -->
+    <!-- Visualization & Content Choices: All content from the previous version is retained and placed within the new wiki structure. The left sidebar acts as the primary navigation, using anchor links to jump to content sections. A JavaScript scroll-spy feature is implemented to highlight the active navigation link based on the user's scroll position, enhancing usability. The visual design is kept minimal and clean to align with the "elegant and easy-to-read" requirement. The main title in the sidebar is colored to stand out as requested. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Noto Sans SC', sans-serif; background-color: #F9FAFB; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .sidebar-link.active { color: #3B82F6; font-weight: 600; border-left-color: #3B82F6; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out; }
+        .content-section { scroll-margin-top: 80px; }
+        .btn-filter.active { background-color: #3B82F6; color: white; border-color: #3B82F6; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Mobile Header -->
+    <header class="md:hidden bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40 flex justify-between items-center px-4 py-3">
+        <h1 class="text-lg font-bold">
+            <span class="text-blue-600">AI</span>
+            <span>——从入门到入土</span>
+        </h1>
+        <button id="mobile-menu-button" class="p-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+    </header>
+
+    <div class="container mx-auto">
+        <div class="flex flex-col md:flex-row">
+
+            <!-- Sidebar Navigation -->
+            <aside id="sidebar" class="w-full md:w-64 lg:w-72 md:flex-shrink-0">
+                <div class="hidden md:block md:sticky md:top-0 h-screen overflow-y-auto p-6">
+                    <h1 class="text-2xl font-bold mb-8">
+                        <span class="text-blue-600">AI</span>
+                        <span>——从入门到入土</span>
+                    </h1>
+                    <nav id="desktop-nav" class="space-y-3">
+                        <a href="#introduction" class="sidebar-link block text-gray-600 hover:text-blue-600 transition-colors duration-200 border-l-2 border-transparent pl-4">引言</a>
+                        <a href="#learning-path" class="sidebar-link block text-gray-600 hover:text-blue-600 transition-colors duration-200 border-l-2 border-transparent pl-4">学习路径</a>
+                        <a href="#toolkit" class="sidebar-link block text-gray-600 hover:text-blue-600 transition-colors duration-200 border-l-2 border-transparent pl-4">AI工具箱</a>
+                        <a href="#frontier-responsibility" class="sidebar-link block text-gray-600 hover:text-blue-600 transition-colors duration-200 border-l-2 border-transparent pl-4">前沿与责任</a>
+                    </nav>
+                </div>
+                 <!-- Mobile Menu -->
+                <div id="mobile-menu" class="hidden md:hidden bg-white p-4">
+                     <nav class="space-y-2">
+                        <a href="#introduction" class="sidebar-link block py-2 px-4 rounded hover:bg-gray-100">引言</a>
+                        <a href="#learning-path" class="sidebar-link block py-2 px-4 rounded hover:bg-gray-100">学习路径</a>
+                        <a href="#toolkit" class="sidebar-link block py-2 px-4 rounded hover:bg-gray-100">AI工具箱</a>
+                        <a href="#frontier-responsibility" class="sidebar-link block py-2 px-4 rounded hover:bg-gray-100">前沿与责任</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 p-4 md:p-8 lg:p-12">
+                <section id="introduction" class="content-section mb-16">
+                    <div class="bg-white p-8 md:p-12 rounded-2xl shadow-lg">
+                        <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4">欢迎来到人工智能时代</h2>
+                        <p class="text-lg md:text-xl text-gray-600 max-w-3xl">
+                            我们正处在一个激动人心的时代，人工智能（AI）正在重塑你的大学之旅。本指南将伴你从AI好奇者成长为终身学习者，为你提供全面、实用且具有持久价值的参考。
+                        </p>
+                    </div>
+                    <div class="mt-8 grid md:grid-cols-2 gap-6">
+                         <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="font-bold text-xl mb-2 text-blue-600">🎯 为什么学习AI？</h3>
+                            <p class="text-gray-600">AI已成为一种新的“读写能力”，是关乎学业成功和未来发展的关键素养，无论你身处何种学科。</p>
+                        </div>
+                         <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="font-bold text-xl mb-2 text-blue-600">🧭 指南目标</h3>
+                            <p class="text-gray-600">本指南旨在帮助你系统性地掌握AI基础、实用工具、进阶路径和伦理考量，构建适应未来的能力框架。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="learning-path" class="content-section mb-16">
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                        <h2 class="text-3xl font-bold text-center mb-10">学习路径：从入门到精通</h2>
+                        
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold mb-4 text-center">第一步：理解核心概念</h3>
+                             <div class="flex flex-col md:flex-row gap-4 justify-center items-stretch text-center">
+                                <div class="flex-1 p-4 bg-blue-100 border-2 border-blue-500 rounded-lg">
+                                    <h4 class="font-bold text-blue-800 text-lg">人工智能 (AI)</h4>
+                                    <p class="text-sm text-blue-700 mt-1">模拟人类智能的广阔领域，是所有相关技术的总称。</p>
+                                </div>
+                                <div class="flex items-center justify-center font-bold text-2xl text-gray-500 p-2">&gt;</div>
+                                <div class="flex-1 p-4 bg-green-100 border-2 border-green-500 rounded-lg">
+                                    <h4 class="font-bold text-green-800 text-lg">机器学习 (ML)</h4>
+                                    <p class="text-sm text-green-700 mt-1">AI的核心，让机器从数据中学习，而非硬编码。</p>
+                                </div>
+                                <div class="flex items-center justify-center font-bold text-2xl text-gray-500 p-2">&gt;</div>
+                                <div class="flex-1 p-4 bg-purple-100 border-2 border-purple-500 rounded-lg">
+                                    <h4 class="font-bold text-purple-800 text-lg">深度学习 (DL)</h4>
+                                    <p class="text-sm text-purple-700 mt-1">ML的分支，用深度神经网络处理复杂模式。</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <div class="p-4 bg-red-100 border-2 border-dashed border-red-500 rounded-lg text-center w-full md:w-1/2">
+                                   <h4 class="font-bold text-red-800 text-lg">生成式AI (GenAI)</h4>
+                                   <p class="text-sm text-red-700 mt-1">一个功能类别，专注于创造新内容（文本、图像等），通常基于深度学习技术。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold mb-6 text-center">第二步：掌握提示词的艺术 (Prompt Engineering)</h3>
+                             <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">与AI有效沟通是关键。好的提示词能将AI从一个模糊的玩具变成一个强大的助手。</p>
+                             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                                <div class="bg-gray-100 p-4 rounded-lg"><h4 class="font-bold">🎭 设定角色</h4><p class="mt-1">告诉AI它应该扮演什么角色。例如：“你是一位资深的市场分析师...”</p></div>
+                                <div class="bg-gray-100 p-4 rounded-lg"><h4 class="font-bold">📝 提供背景</h4><p class="mt-1">给出足够的上下文信息。例如：“我正在为一门大学市场营销课程撰写报告...”</p></div>
+                                <div class="bg-gray-100 p-4 rounded-lg"><h4 class="font-bold">🎯 明确任务</h4><p class="mt-1">使用清晰的动词，直接说明你需要什么。例如：“...请为我分析一下XX品牌的社交媒体策略。”</p></div>
+                                <div class="bg-gray-100 p-4 rounded-lg"><h4 class="font-bold">📄 指定格式</h4><p class="mt-1">要求AI按特定格式输出，如“请用要点列表的形式呈现”或“生成一个表格”。</p></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold mb-6 text-center">第三步：开启进阶之路</h3>
+                            <div id="learning-roadmap-accordion" class="space-y-2 max-w-3xl mx-auto"></div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-bold mb-6 text-center">第四步：拓展你的知识库</h3>
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div class="bg-gray-100 p-4 rounded-lg"><h4 class="font-bold text-lg mb-2">🎓 顶尖在线课程</h4><ul id="resource-courses" class="list-disc list-inside space-y-1 text-gray-700 text-sm"></ul></div>
+                                <div class="bg-gray-100 p-4 rounded-lg"><h4 class="font-bold text-lg mb-2">📚 必读经典书籍</h4><ul id="resource-books" class="list-disc list-inside space-y-1 text-gray-700 text-sm"></ul></div>
+                                <div class="bg-gray-100 p-4 rounded-lg"><h4 class="font-bold text-lg mb-2">💬 活跃在线社区</h4><ul id="resource-communities" class="list-disc list-inside space-y-1 text-gray-700 text-sm"></ul></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="toolkit" class="content-section mb-16">
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                        <h2 class="text-3xl font-bold text-center mb-2">你的AI工具箱</h2>
+                        <p class="text-center text-gray-600 mb-8">将AI融入日常，提升学习效率和生活品质的强大工具。</p>
+                        <div class="flex flex-wrap justify-center gap-2 mb-6">
+                            <button class="btn-filter px-4 py-2 rounded-full text-sm font-semibold bg-white border border-gray-300 hover:bg-gray-100" data-filter="all">全部</button>
+                            <button class="btn-filter px-4 py-2 rounded-full text-sm font-semibold bg-white border border-gray-300 hover:bg-gray-100" data-filter="academic">学术与研究</button>
+                            <button class="btn-filter px-4 py-2 rounded-full text-sm font-semibold bg-white border border-gray-300 hover:bg-gray-100" data-filter="productivity">效率与管理</button>
+                            <button class="btn-filter px-4 py-2 rounded-full text-sm font-semibold bg-white border border-gray-300 hover:bg-gray-100" data-filter="finance">个人理财</button>
+                        </div>
+                        <div id="toolkit-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                    </div>
+                </section>
+
+                <section id="frontier-responsibility" class="content-section mb-16">
+                     <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+                        <h2 class="text-3xl font-bold text-center mb-10">前沿与责任</h2>
+                         <div class="grid lg:grid-cols-2 gap-12">
+                             <div>
+                                <h3 class="text-2xl font-bold mb-4">与浪潮共舞：追踪AI前沿</h3>
+                                <div class="space-y-6 mb-8">
+                                    <div class="p-6 bg-gray-100 rounded-lg"><h4 class="font-bold text-xl mb-2">👁️ 多模态人工智能</h4><p class="text-gray-600">能同时处理文本、图像、音频等多种信息的AI，更接近人类的感知方式。</p></div>
+                                    <div class="p-6 bg-gray-100 rounded-lg"><h4 class="font-bold text-xl mb-2">🤖 通用人工智能 (AGI)</h4><p class="text-gray-600">能像人类一样在广泛任务中理解、学习和应用知识的AI，是领域的终极目标之一。</p></div>
+                                </div>
+                                <div>
+                                     <h4 class="font-bold text-xl mb-4 text-center">AI对就业市场的影响</h4>
+                                    <div class="chart-container"><canvas id="job-market-chart"></canvas></div>
+                                    <p class="text-center text-gray-500 text-xs mt-2">未来将更强调人与AI协同，而非替代。</p>
+                                </div>
+                             </div>
+                             <div>
+                                <h3 class="text-2xl font-bold mb-4">有良知地使用AI</h3>
+                                 <div class="grid grid-cols-2 gap-4 mb-6">
+                                     <div class="bg-red-50 p-3 rounded-lg"><h5 class="font-semibold text-red-800">偏见 (Bias)</h5></div>
+                                     <div class="bg-red-50 p-3 rounded-lg"><h5 class="font-semibold text-red-800">隐私 (Privacy)</h5></div>
+                                     <div class="bg-red-50 p-3 rounded-lg"><h5 class="font-semibold text-red-800">幻觉 (Hallucinations)</h5></div>
+                                     <div class="bg-red-50 p-3 rounded-lg"><h5 class="font-semibold text-red-800">知识产权</h5></div>
+                                 </div>
+                                 <h4 class="font-bold text-lg mb-3">学生负责任使用AI自查清单</h4>
+                                <div id="ethics-checklist" class="space-y-3"></div>
+                             </div>
+                         </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const contentData = {
+            toolkit: [
+                { name: 'Grammarly', category: 'academic', description: '强大的语法与风格检查工具，提升英文写作质量。' },
+                { name: 'Litmaps', category: 'academic', description: '文献引文网络可视化，高效进行文献综述，发现关键研究。' },
+                { name: 'Zotero', category: 'academic', description: '文献管理与组织、PDF标注、引文与参考文献自动生成。' },
+                { name: '秘塔AI搜索', category: 'academic', description: '新一代AI搜索引擎，能够深入理解问题并整合信息，提供带引用的结构化答案，尤其适合学术探索。'},
+                { name: '通用大模型', category: 'academic', description: '回答学科问题、总结材料、辅助写作。国际可选ChatGPT/Gemini，国内可选文心一言/通义千问/Kimi/DeepSeek等。' },
+                { name: 'Notion (AI)', category: 'productivity', description: '智能摘要、任务管理、知识库构建，整合学习与生活。' },
+                { name: 'Slack (AI)', category: 'productivity', description: '工作流程自动化、AI搜索与摘要，提升团队协作效率。' },
+                { name: 'Asana (AI)', category: 'productivity', description: '实时通知、自定义自动化规则，优化复杂项目管理。' },
+                { name: 'Mint / Cleo', category: 'finance', description: 'AI支出分类、个性化预算建议、对话式财务助手。' },
+                { name: 'Plum / Digit', category: 'finance', description: 'AI驱动的自动储蓄，“无痛”积累财富。' },
+            ],
+            roadmap: [
+                {
+                    title: '1-2月: Python编程与基础数学',
+                    details: '掌握Python基础语法、数据结构；学习线性代数（向量、矩阵）与概率论基础。推荐工具: NumPy, Pandas。'
+                },
+                {
+                    title: '3-4月: 核心机器学习与第一个项目',
+                    details: '理解监督/无监督学习概念；学习数据预处理、EDA；实践简单ML算法。推荐工具: Scikit-learn。项目目标：构建一个简单的情感分析工具。'
+                },
+                {
+                    title: '5-6月: 深度学习框架与进阶项目',
+                    details: '学习神经网络基础；掌握TensorFlow或PyTorch框架；尝试简单的NLP或CV任务。项目目标：开发一个基于DL的图像识别器。'
+                }
+            ],
+            resources: {
+                courses: [
+                    { name: '吴恩达 - 《机器学习》', url: '#' },
+                    { name: 'fast.ai - Practical Deep Learning', url: '#' },
+                    { name: 'Hugging Face - NLP Course', url: '#' }
+                ],
+                books: [
+                    { name: '《深度学习》 (花书)', url: '#' },
+                    { name: '《动手学深度学习》', url: '#' },
+                    { name: '《Python机器学习基础教程》', url: '#' }
+                ],
+                communities: [
+                    { name: 'Reddit - r/MachineLearning', url: '#' },
+                    { name: 'Kaggle - 竞赛与讨论区', url: '#' },
+                    { name: 'GitHub - AI开源项目', url: '#' }
+                ]
+            },
+            ethicsChecklist: [
+                '我使用AI是为了辅助学习和创造，还是仅仅为了走捷径？',
+                '我是否已了解并遵循了导师和学校关于AI使用的具体规定？',
+                '我是否明确区分了个人原创内容与AI辅助生成的内容？',
+                '我是否对AI生成的信息进行了事实核查和多方验证？',
+                '我是否在AI输出的基础上融入了自己的批判性思考和创造性改进？',
+                '我输入AI工具的信息是否涉及个人敏感数据或他人隐私？'
+            ]
+        };
+
+        // Navigation and Scroll Spy
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        const sections = document.querySelectorAll('.content-section');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const link = document.querySelector(`#desktop-nav a[href="#${id}"]`);
+                if (entry.isIntersecting) {
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    if (link) {
+                       link.classList.add('active');
+                       // Also activate in mobile menu if it exists
+                       document.querySelectorAll('#mobile-menu a').forEach(ml => ml.classList.remove('active', 'bg-blue-50'));
+                       const mobileLink = mobileMenu.querySelector(`a[href="#${id}"]`);
+                       if (mobileLink) mobileLink.classList.add('active', 'bg-blue-50');
+                    }
+                }
+            });
+        }, { rootMargin: "-30% 0px -70% 0px" });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (mobileMenu.classList.contains('hidden') === false) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Toolkit filter
+        function initToolkit() {
+            const grid = document.getElementById('toolkit-grid');
+            if (!grid) return;
+            const filters = document.querySelectorAll('.btn-filter');
+            
+            function renderTools(filter = 'all') {
+                grid.innerHTML = '';
+                const filteredTools = (filter === 'all') ? contentData.toolkit : contentData.toolkit.filter(tool => tool.category === filter);
+                filteredTools.forEach(tool => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow';
+                    card.innerHTML = `<h3 class="font-bold text-lg mb-2">${tool.name}</h3><p class="text-gray-600 text-sm">${tool.description}</p><div class="mt-3 text-xs font-semibold uppercase text-blue-500">${tool.category}</div>`;
+                    grid.appendChild(card);
+                });
+            }
+
+            filters.forEach(filterBtn => {
+                filterBtn.addEventListener('click', (e) => {
+                    filters.forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    renderTools(e.target.dataset.filter);
+                });
+            });
+            // Set 'all' as active initially
+            document.querySelector('.btn-filter[data-filter="all"]').classList.add('active');
+            renderTools();
+        }
+
+        // Roadmap accordion
+        function initRoadmap() {
+            const container = document.getElementById('learning-roadmap-accordion');
+            if (!container) return;
+            contentData.roadmap.forEach((item, index) => {
+                const accordionItem = document.createElement('div');
+                accordionItem.className = 'border border-gray-200 rounded-lg';
+                accordionItem.innerHTML = `
+                    <button class="accordion-button w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-semibold flex justify-between items-center transition">
+                        <span>${index + 1}. ${item.title}</span>
+                        <span class="transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div class="accordion-content bg-white p-4 border-t border-gray-200"><p>${item.details}</p></div>`;
+                container.appendChild(accordionItem);
+            });
+            container.addEventListener('click', (e) => {
+                const button = e.target.closest('.accordion-button');
+                if (button) {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('span:last-child');
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        // Close other accordions
+                        container.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+                        container.querySelectorAll('.accordion-button span:last-child').forEach(i => i.style.transform = 'rotate(0deg)');
+                        
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                }
+            });
+        }
+
+        // Resources list
+        function initResources() {
+            const courseList = document.getElementById('resource-courses');
+            const bookList = document.getElementById('resource-books');
+            const communityList = document.getElementById('resource-communities');
+            if (courseList) contentData.resources.courses.forEach(item => {
+                courseList.innerHTML += `<li><a href="${item.url}" target="_blank" class="hover:text-blue-500">${item.name}</a></li>`;
+            });
+            if (bookList) contentData.resources.books.forEach(item => {
+                bookList.innerHTML += `<li><a href="${item.url}" target="_blank" class="hover:text-blue-500">${item.name}</a></li>`;
+            });
+            if (communityList) contentData.resources.communities.forEach(item => {
+                communityList.innerHTML += `<li><a href="${item.url}" target="_blank" class="hover:text-blue-500">${item.name}</a></li>`;
+            });
+        }
+
+        // Job chart
+        function initJobChart() {
+            const ctx = document.getElementById('job-market-chart')?.getContext('2d');
+            if (!ctx) return;
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['AI/ML工程师', '数据分析师', '行政/文秘岗', '重复性劳作'],
+                    datasets: [{
+                        label: '岗位需求变化趋势',
+                        data: [90, 85, -60, -75],
+                        backgroundColor: (c) => c.dataset.data[c.dataIndex] > 0 ? 'rgba(59, 130, 246, 0.7)' : 'rgba(239, 68, 68, 0.7)',
+                        borderColor: (c) => c.dataset.data[c.dataIndex] > 0 ? '#3B82F6' : '#EF4444',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { ticks: { callback: (v) => v > 0 ? `+${v}%` : `${v}%` } } }
+                }
+            });
+        }
+        
+        // Ethics checklist
+        function initEthicsChecklist() {
+            const container = document.getElementById('ethics-checklist');
+            if (!container) return;
+            contentData.ethicsChecklist.forEach(item => {
+                const checkItem = document.createElement('label');
+                checkItem.className = 'flex items-center p-3 bg-gray-100 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors';
+                checkItem.innerHTML = `<input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 shrink-0"><span class="ml-3 text-gray-700 text-sm">${item}</span>`;
+                container.appendChild(checkItem);
+            });
+        }
+        
+        // Initialize all components
+        initToolkit();
+        initRoadmap();
+        initResources();
+        initJobChart();
+        initEthicsChecklist();
+    });
+    </script>
+</body>
+</html>

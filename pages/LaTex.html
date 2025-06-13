@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaTeX 入门指南 - 单页Wiki</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --nav-bg: #f8f9fa;
+            --nav-text: #495057;
+            --nav-hover-bg: #e9ecef;
+            --header-color: #3367D6;
+            --link-color: #4285F4;
+            --nav-active-bg: #4285F4;
+            --nav-active-text: #ffffff;
+            --code-bg: #f1f3f5;
+            --code-text: #212529;
+            --border-color: #dee2e6;
+            --copy-btn-bg: #6c757d;
+            --copy-btn-hover-bg: #5a6268;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            transition: transform 0.3s ease-in-out;
+        }
+        body.nav-open {
+            overflow: hidden;
+        }
+
+        .nav-container {
+            width: 260px;
+            flex-shrink: 0;
+            background-color: var(--nav-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 20px 0;
+            overflow-y: auto;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+        }
+        .nav-container h2 {
+            font-size: 1.2rem;
+            padding: 0 20px 10px 20px;
+            margin: 0;
+            color: var(--header-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+        nav li a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: var(--nav-text);
+            font-size: 0.95rem;
+            transition: all 0.2s ease-in-out;
+            border-left: 3px solid transparent;
+        }
+        nav li a:hover {
+            background-color: var(--nav-hover-bg);
+            border-left-color: var(--link-color);
+        }
+        nav li a.active {
+            background-color: var(--nav-active-bg);
+            color: var(--nav-active-text);
+            border-left-color: var(--nav-active-bg);
+            font-weight: bold;
+        }
+        .content-container {
+            flex-grow: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+            height: 100vh;
+            margin-left: 260px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+        section {
+            margin-bottom: 50px;
+            padding-top: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h1, h3, h4 {
+            color: var(--header-color);
+        }
+        h1 {
+            font-size: 2.2rem;
+            border-bottom: 2px solid var(--header-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 1.7rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        h4 {
+            font-size: 1.3rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        p, li {
+            font-size: 1rem;
+            color: #495057;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .code-block-wrapper {
+            position: relative;
+            margin: 20px 0;
+        }
+        pre {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.9em;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        }
+        p > code, li > code {
+            background-color: var(--code-bg);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.85em;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--nav-bg);
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--copy-btn-bg);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.2s ease;
+        }
+        .code-block-wrapper:hover .copy-btn {
+            opacity: 1;
+        }
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+        blockquote {
+            border-left: 4px solid var(--link-color);
+            padding-left: 15px;
+            margin-left: 0;
+            color: #6c757d;
+            background-color: #f8f9fa;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        /* --- Mobile Specific Additions (Corrected) --- */
+        .menu-toggle {
+            display: none; /* --- FIX: Hidden by default --- */
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: var(--nav-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            z-index: 1001;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 8px;
+        }
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--header-color);
+            border-radius: 3px;
+            transition: all 0.3s ease-in-out;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        body.nav-open .overlay {
+            display: block;
+        }
+
+        /* --- Media Query for Mobile --- */
+        @media (max-width: 768px) {
+            .content-container {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+            .nav-container {
+                transform: translateX(-100%);
+                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            }
+            body.nav-open .nav-container {
+                transform: translateX(0);
+            }
+            .menu-toggle {
+                display: flex; /* --- FIX: Made visible only on mobile --- */
+            }
+            h1 { font-size: 1.8rem; }
+            h3 { font-size: 1.5rem; }
+            h4 { font-size: 1.2rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+<button class="menu-toggle" aria-label="Toggle Navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+<div class="overlay"></div>
+
+<div class="nav-container">
+    <h2>LaTex——从入门到入土</h2>
+    <nav id="toc">
+        <ul>
+            <li><a href="#intro">前言</a></li>
+            <li><a href="#setup">准备工作</a></li>
+            <li><a href="#basics">文档基础</a></li>
+            <li><a href="#structure">文档结构</a></li>
+            <li><a href="#content">内容元素</a></li>
+            <li><a href="#theorems">定理环境</a></li>
+            <li><a href="#layout">页面设置</a></li>
+            <li><a href="#math">数学公式</a></li>
+            <li><a href="#conclusion">结语</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="content-container">
+    <header>
+        <h1>LaTeX 入门指南</h1>
+    </header>
+
+    <section id="intro">
+        <h3>前言：排版工具与书写工具的讨论</h3>
+        <p>LaTeX是一种基于ΤeΧ的“非所见即所得”排版系统。用户通过编写特定的代码（通常保存在 <code>.tex</code> 的文件中），再经过编译器处理，最终生成专业级的PDF文档。</p>
+        <p>例如以下代码：</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\documentclass{article}
+
+\begin{document}
+Hello, world!
+\end{document}</code></pre>
+        </div>
+        <p>编译后会输出一个内容为“Hello, world!”的PDF文件。</p>
+        <h4>“非所见即所得” vs “所见即所得”</h4>
+        <p>以Microsoft Word为例，其界面就是一张虚拟A4纸，输入时的样式即为最终输出的样式，这被称为“所见即所得”（WYSIWYG）。这种方式直观、易上手，但存在一些问题：</p>
+        <ul>
+            <li><strong>细节不一致:</strong> 对细节不敏感的用户，排版中常出现行间距、字体、标题样式不统一等问题。</li>
+            <li><strong>自动化程度低:</strong> 论文写作中的标题、章节、图表、参考文献等难以自动编号和交叉引用。</li>
+            <li><strong>公式支持不佳:</strong> 自带的公式编辑器功能有限，插件有时不稳定或效果不理想。</li>
+        </ul>
+        <p>相比之下，使用LaTeX进行排版，就像在铺好的轨道上驾驶火车。虽然自由度不如Word，但其严格的规范性确保了文档的高度一致和专业，尤其适合学术论文、书籍和报告的排版。无论是LaTeX还是Word，其归根结底都只是工具。值得一提的是，Markdown作为一种轻量级标记语言，书写时可专注于内容，并支持LaTeX语法输入公式，与LaTeX的转换也十分方便，是理想的草稿书写工具。</p>
+    </section>
+
+    <section id="setup">
+        <h3>准备工作：安装与配置</h3>
+        <h4>1. 安装 TeX Live</h4>
+        <p>TeX Live 是主流的LaTeX发行版，包含了编译所需的引擎和宏包。推荐安装最新版本（每年更新）。</p>
+        <p>官方下载地址速度可能较慢，建议使用国内镜像（注意年份，请下载最新版，如 `texlive.iso` 或 `texlive2025.iso`）：</p>
+        <ul>
+            <li><a href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/" target="_blank">清华大学镜像</a></li>
+            <li><a href="https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/" target="_blank">上海交通大学镜像</a></li>
+            <li><a href="https://mirrors.ustc.edu.cn/CTAN/systems/texlive/Images/" target="_blank">中国科技大学镜像</a></li>
+        </ul>
+        <p>下载ISO文件后，可使用压缩软件解压或虚拟光驱加载，然后运行其中的安装脚本即可。</p>
+
+        <h4>2. 选择 TeX 编辑器</h4>
+        <ul>
+            <li><strong>新手推荐:</strong> TeXworks (通常随 TeX Live 自带)，开箱即用，无需配置。</li>
+            <li><strong>进阶之选:</strong> <a href="https://www.texstudio.org/" target="_blank">TeXstudio</a>，功能强大，提供语法高亮、自动补全和集成PDF预览。</li>
+            <li><strong>专业配置:</strong> Visual Studio Code + <a href="https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop" target="_blank">LaTeX Workshop 插件</a>，高度可定制，效率极高，是笔者的主力推荐，但需要手动配置。</li>
+            <li><strong>在线协作:</strong> <a href="https://www.overleaf.com" target="_blank">Overleaf</a>，无需本地安装，支持实时协作，是团队项目的绝佳选择。</li>
+        </ul>
+
+        <h4>3. 选择 PDF 阅读器</h4>
+        <p>专业的PDF阅读器能提供更好的体验，尤其是在查看 `beamer` 幻灯片和使用反向同步（从PDF点击跳转回源码）时。</p>
+        <ul>
+            <li><strong>Windows 推荐:</strong> <a href="https://www.sumatrapdfreader.org/free-pdf-reader" target="_blank">SumatraPDF</a>，轻量、快速，且对 SyncTeX（反向同步）支持极佳。</li>
+            <li><strong>通用选择:</strong> <a href="https://get.adobe.com/reader/" target="_blank">Adobe Acrobat Reader</a>，功能全面，兼容性好。</li>
+        </ul>
+    </section>
+
+    <section id="basics">
+        <h3>文档基础</h3>
+        <h4>文档类型 (Document Class)</h4>
+        <p>每个LaTeX文档都始于 <code>\documentclass{}</code> 命令。它定义了文档的整体类型。</p>
+        <ul>
+            <li><strong>英文:</strong> <code>book</code>, <code>article</code>, <code>report</code>, <code>beamer</code> (幻灯片)</li>
+            <li><strong>中文:</strong> 推荐使用 <code>ctexart</code>, <code>ctexrep</code>, <code>ctexbook</code>，它们封装了 `ctex` 宏包，对中文支持非常完善。</li>
+        </ul>
+        <p>可以在文档类型后用方括号传入选项，如字体大小、纸张、单双面等。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\documentclass[12pt, a4paper, oneside]{ctexart}</code></pre>
+        </div>
+
+        <h4>文档骨架</h4>
+        <p>文档内容必须放在 <code>\begin{document}</code> 和 <code>\end{coment}</code> 之间。在此之前的部分称为 **导言区 (Preamble)**，用于加载宏包和进行全局设置。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\documentclass{ctexart}
+
+% 这里是导言区，用于全局设置
+
+\begin{document}
+
+这里是正文部分，会显示在最终的PDF中。
+
+\end{document}</code></pre>
+        </div>
+
+        <h4>宏包 (Packages)</h4>
+        <p>LaTeX 的强大功能很大程度上来自于宏包。使用 <code>\usepackage{}</code> 命令在导言区加载所需宏包。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">% 数学公式与定理环境
+\usepackage{amsmath, amsthm, amssymb}
+% 插入图片
+\usepackage{graphicx}
+% 超链接与PDF书签
+\usepackage[bookmarks=true, colorlinks, citecolor=blue, linkcolor=black]{hyperref}
+% 页面边距设置
+\usepackage{geometry}
+% 粗体数学符号
+\usepackage{bm}</code></pre>
+        </div>
+    </section>
+
+    <section id="structure">
+        <h3>文档结构</h3>
+        <h4>标题、作者与日期</h4>
+        <p>在导言区设置标题等信息，然后在正文区使用 <code>\maketitle</code> 命令来生成标题块。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\documentclass{ctexart}
+
+\title{我的第一个 \LaTeX{} 文档}
+\author{张三}
+\date{\today} % \today 会自动生成当天的日期
+
+\begin{document}
+\maketitle
+
+这里是正文...
+\end{document}</code></pre>
+        </div>
+
+        <h4>章节与段落</h4>
+        <p>使用章节命令来组织文章结构，LaTeX会自动为其编号。</p>
+        <ul>
+            <li><code>\section{一级标题}</code></li>
+            <li><code>\subsection{二级标题}</code></li>
+            <li><code>\subsubsection{三级标题}</code></li>
+        </ul>
+        <p>对于 <code>ctexbook</code> 等书籍类型，还可以使用 <code>\chapter{章标题}</code>。</p>
+        <blockquote>在LaTeX中，一个或多个连续的空行用来分隔段落，代码中的换行和多余空格会被忽略。新段落默认会首行缩进。</blockquote>
+
+        <h4>目录</h4>
+        <p>在文档的适当位置（通常是标题之后）使用 <code>\tableofcontents</code> 命令，即可自动生成基于章节标题的目录。</p>
+        <blockquote>带有目录或交叉引用的文档通常需要 **编译两次** 以确保所有编号和引用都正确更新。</blockquote>
+        
+        <h4>交叉引用 (Label and Reference)</h4>
+        <p>这是LaTeX的核心优势之一。使用 <code>\label{key}</code> 为几乎任何可编号的对象（章节、图、表、公式）设置一个唯一的标签，然后使用 <code>\ref{key}</code> 在文中的任何地方引用它的编号。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\section{绪论}
+\label{sec:intro}
+
+在章节 \ref{sec:intro} 中，我们讨论了...
+
+\begin{equation}
+    a^2 + b^2 = c^2 \label{eq:pythagoras}
+\end{equation}
+
+公式 \ref{eq:pythagoras} 是著名的勾股定理。</code></pre>
+        </div>
+    </section>
+    
+    <section id="content">
+        <h3>内容元素</h3>
+        <h4>图片</h4>
+        <p>使用 <code>figure</code> 环境和 <code>\includegraphics</code> 命令插入图片。需要加载 <code>graphicx</code> 宏包。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figure.png}
+    \caption{这是一张示例图片}
+    \label{fig:example}
+\end{figure}</code></pre>
+        </div>
+        <ul>
+            <li><code>[htbp]</code>: LaTeX自动选择最佳位置 (Here, Top, Bottom, Page)。</li>
+            <li><code>\centering</code>: 图片居中。</li>
+            <li><code>width=0.8\textwidth</code>: 设置图片宽度为文本宽度的80%。</li>
+            <li><code>\caption{}</code>: 图片标题，会自动编号。</li>
+            <li><code>\label{}</code>: 用于交叉引用。</li>
+        </ul>
+
+        <h4>表格</h4>
+        <p>表格使用 <code>table</code> 和 <code>tabular</code> 环境。手动创建较为繁琐，推荐使用在线工具 <a href="https://www.tablesgenerator.com/" target="_blank">TablesGenerator.com</a> 自动生成代码。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\begin{table}[htbp]
+    \centering
+    \caption{一个简单的三列表格}
+    \label{tab:example}
+    \begin{tabular}{lcr} % l=left, c=center, r=right
+        \hline
+        左对齐 & 居中 & 右对齐 \\
+        \hline
+        1 & 2 & 3 \\
+        4 & 5 & 6 \\
+        7 & 8 & 9 \\
+        \hline
+    \end{tabular}
+\end{table}</code></pre>
+        </div>
+        
+        <h4>列表</h4>
+        <ul>
+            <li><strong>无序列表 (itemize):</strong> <code>\begin{itemize} \item ... \end{itemize}</code></li>
+            <li><strong>有序列表 (enumerate):</strong> <code>\begin{enumerate} \item ... \end{enumerate}</code></li>
+            <li><strong>描述列表 (description):</strong> <code>\begin{description} \item[名词] 解释... \end{description}</code></li>
+        </ul>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\begin{enumerate}
+    \item 这是第一点。
+    \item 这是第二点，可以自定义标号：
+    \begin{enumerate}
+        \item[(a)] 子项目一。
+        \item[(b)] 子项目二。
+    \end{enumerate}
+    \item 这是第三点。
+\end{enumerate}</code></pre>
+        </div>
+
+        <h4>参考文献</h4>
+        <p>对于入门，最简单的方式是使用 <code>thebibliography</code> 环境。在文中使用 <code>\cite{key}</code> 引用。</p>
+        <blockquote>对于大规模的文献管理，推荐学习 BibTeX 或 BibLaTeX，它们能通过 <code>.bib</code> 文件自动管理和格式化参考文献。</blockquote>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">% 在正文中引用
+Knuth 的著作 \cite{knuth1984texbook} 是 \TeX{} 的经典。
+
+% 在文档末尾（\end{document}之前）
+\begin{thebibliography}{9} % {9} 表示引用标签最大是一位数
+
+\bibitem{knuth1984texbook}
+Donald E. Knuth.
+\newblock \textit{The TeXbook}.
+\newblock Addison-Wesley Professional, 1984.
+
+\end{thebibliography}</code></pre>
+        </div>
+
+    </section>
+
+    <section id="theorems">
+        <h3>定理环境</h3>
+        <p>学术写作离不开定理、定义、引理等。使用 <code>amsthm</code> 宏包可以轻松定义这些环境。</p>
+        <h4>定义环境</h4>
+        <p>在导言区使用 <code>\newtheorem</code> 定义新环境。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\newtheorem{theorem}{定理}[section] % {环境名}{显示名}[计数器依赖]
+\newtheorem{definition}[theorem]{定义} % [theorem]表示与定理环境共享编号
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}</code></pre>
+        </div>
+        
+        <h4>使用环境</h4>
+        <p>在正文中使用定义好的环境。证明过程可以使用 <code>proof</code> 环境，它会自动添加证毕符号。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\begin{theorem}[勾股定理]
+    \label{thm:pythagoras}
+    在一个直角三角形中，两条直角边的平方和等于斜边的平方。
+\end{theorem}
+
+\begin{proof}
+    证明过程略。
+\end{proof}</code></pre>
+        </div>
+    </section>
+    
+    <section id="layout">
+        <h3>页面设置</h3>
+        <h4>页边距</h4>
+        <p>LaTeX 默认页边距较大。使用 <code>geometry</code> 宏包可以方便地进行调整。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}</code></pre>
+        </div>
+        
+        <h4>行间距</h4>
+        <p>虽然 <code>\linespread{1.5}</code> 可以设置1.5倍行距，但更推荐使用 <code>setspace</code> 宏包，它能更精细地控制行距，避免在某些环境（如图表标题）中出现不协调的间距。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\usepackage{setspace}
+% 在导言区设置后全文生效
+\onehalfspacing % 1.5倍行距
+% \doublespacing % 双倍行距
+% \singlespacing % 单倍行距</code></pre>
+        </div>
+    </section>
+
+    <section id="math">
+        <h3>数学公式</h3>
+        <p>LaTeX 的数学公式排版功能是其核心魅力所在。需要加载 <code>amsmath</code>, <code>amssymb</code>, <code>bm</code> 等宏包。</p>
+        
+        <h4>行内公式与行间公式</h4>
+        <ul>
+            <li><strong>行内公式:</strong> 使用 <code>$...$</code> 包裹，嵌入在文本行中。例如：设函数为 <code>$f(x) = x^2$</code>。</li>
+            <li><strong>行间公式 (无编号):</strong> <strong>（推荐）</strong> 使用 <code>\[ ... \]</code>。它会自动居中并与上下文产生合适的间距。</li>
+            <li><strong>行间公式 (有编号):</strong> 使用 <code>equation</code> 环境，会自动编号并允许使用 <code>\label</code>。</li>
+        </ul>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">质能方程是现代物理学的基石：
+\begin{equation}
+    E = mc^2 \label{eq:emc}
+\end{equation}</code></pre>
+        </div>
+        <blockquote><strong>注意:</strong> 应当避免使用陈旧的 <code>$$...$$</code> 写法，因为它可能导致错误的垂直间距。请始终使用 <code>\[...\]</code> 或 `amsmath` 提供的环境。</blockquote>
+
+        <h4>常用语法</h4>
+        <table >
+            <thead>
+                <tr><th>功能</th><th>命令</th><th>示例</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>上下标</td><td><code>^</code> 和 <code>_</code></td><td><code>$x^{2\alpha_i}$</code></td></tr>
+                <tr><td>分式</td><td><code>\frac{分子}{分母}</code></td><td><code>$\frac{1}{2}$</code> (小) vs <code>$\displaystyle\frac{1}{2}$</code> 或 <code>$\dfrac{1}{2}$</code> (大)</td></tr>
+                <tr><td>根号</td><td><code>\sqrt[n]{...}</code></td><td><code>$\sqrt{x^2+y^2}$</code>, <code>$\sqrt[3]{8}=2$</code></td></tr>
+                <tr><td>求和/积分</td><td><code>\sum</code>, <code>\int</code></td><td><code>$\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$</code>, <code>$\int_a^b f(x)dx$</code></td></tr>
+                <tr><td>括号</td><td><code>() [] \{\}</code></td><td>对于高大的内容，使用 <code>\left( ... \right)</code> 自动调整大小</td></tr>
+                <tr><td>粗体符号</td><td><code>\bm{...}</code> (需 <code>bm</code> 宏包)</td><td><code>$\bm{v} = (v_1, v_2, v_3)$</code></td></tr>
+            </tbody>
+        </table>
+
+        <h4>多行公式</h4>
+        <p>使用 <code>aligned</code> 环境（在数学环境内）进行对齐，使用 <code>&</code> 标记对齐点，<code>\\</code> 换行。</p>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\[
+\begin{aligned}
+    (a+b)^2 & = (a+b)(a+b) \\
+            & = a^2 + ab + ba + b^2 \\
+            & = a^2 + 2ab + b^2
+\end{aligned}
+\]</code></pre>
+        </div>
+        
+        <h4>矩阵与分段函数</h4>
+        <ul>
+            <li><strong>矩阵:</strong> 使用 <code>pmatrix</code> (圆括号), <code>bmatrix</code> (方括号), <code>vmatrix</code> (竖线) 等环境。</li>
+            <li><strong>分段函数:</strong> 使用 <code>cases</code> 环境。</li>
+        </ul>
+        <div class="code-block-wrapper">
+            <button class="copy-btn">复制</button>
+            <pre><code class="language-latex">\[
+% 矩阵
+\mathbf{A} = \begin{pmatrix} a & b \\ c & d \end{pmatrix}
+\quad
+% 分段函数
+|x| = \begin{cases}
+    x, & \text{if } x \ge 0 \\
+    -x, & \text{if } x < 0
+\end{cases}
+\]</code></pre>
+        </div>
+    </section>
+
+    <section id="conclusion">
+        <h3>结语</h3>
+        <p>本教程涵盖了LaTeX日常使用的核心功能。耐心学习完后，您应该足以应对大多数文档的排版需求。熟练掌握LaTeX需要不断的实践，您可以尝试：</p>
+        <ul>
+            <li>用LaTeX录入几页您喜欢的书籍或文章，以加深理解和熟练度。</li>
+            <li>配置VS Code等高效编辑器，探索更现代化的工作流。</li>
+            <li>研究如何美化排版，或直接使用网络上众多优秀的LaTeX模板。</li>
+        </ul>
+        <p>祝您在LaTeX的世界中探索愉快！</p>
+    </section>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // --- Mobile Navigation ---
+    const menuToggle = document.querySelector('.menu-toggle');
+    const overlay = document.querySelector('.overlay');
+    const body = document.body;
+
+    const closeNav = () => {
+        body.classList.remove('nav-open');
+    };
+
+    menuToggle.addEventListener('click', () => {
+        body.classList.toggle('nav-open');
+    });
+
+    overlay.addEventListener('click', closeNav);
+
+    // Copy button functionality
+    const allCodeBlocks = document.querySelectorAll('.code-block-wrapper');
+    allCodeBlocks.forEach(wrapper => {
+        const copyButton = wrapper.querySelector('.copy-btn');
+        const codeElement = wrapper.querySelector('pre > code');
+        if (copyButton && codeElement) {
+            copyButton.addEventListener('click', () => {
+                const codeText = codeElement.innerText;
+                navigator.clipboard.writeText(codeText).then(() => {
+                    copyButton.textContent = '已复制!';
+                    setTimeout(() => {
+                        copyButton.textContent = '复制';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+        }
+    });
+
+    // Smooth scrolling for navigation and active link highlighting
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Close nav on mobile after click
+                if (window.innerWidth <= 768) {
+                    closeNav();
+                }
+                
+                // Use a slight timeout to allow the nav to close before scrolling
+                const delay = window.innerWidth <= 768 ? 300 : 0;
+                setTimeout(() => {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, delay);
+            }
+        });
+    });
+
+    const sections = document.querySelectorAll('section');
+    const tocLinks = document.querySelectorAll('#toc a');
+    const contentContainer = document.querySelector('.content-container');
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { root: contentContainer, rootMargin: "-40% 0px -60% 0px", threshold: 0 });
+
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+});
+</script>
+
+</body>
+</html>

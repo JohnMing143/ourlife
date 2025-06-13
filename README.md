@@ -1,5 +1,3 @@
-# ourlife
-
 # 🧭 你的大学生活指北 | A Guide to Your University Life
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

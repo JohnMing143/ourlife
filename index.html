@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>你的大学生活指北</title>
-    <!-- 引入新的字体 Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
 
-    <!-- 顶部导航栏 -->
     <header id="main-header">
         <nav>
             <a href="#home" class="logo">你的大学生活指北</a>
@@ -26,9 +26,7 @@
     </header>
 
     <main>
-        <!-- Section 1: 首页 (Home) -->
         <section id="home" class="hero-section">
-            <!-- 背景动效容器 -->
             <div class="animated-shapes">
                 <div class="shape shape-1"></div>
                 <div class="shape shape-2"></div>
@@ -37,9 +35,7 @@
 
             <div class="hero-content">
                 <h1 class="fade-in">你的大学生活指北</h1>
-                <!-- 用于打字机效果的容器 -->
                 <p class="fade-in" style="animation-delay: 0.3s;"><span id="typed-subtitle"></span></p>
-                <!-- 全新的按钮 -->
                 <a href="#directory" class="cta-button fade-in" style="animation-delay: 0.6s;">
                     开始探索 <span>→</span>
                 </a>
@@ -49,30 +45,28 @@
             </div>
         </section>
 
-        <!-- Section 2: 目录 (Directory) -->
         <section id="directory" class="content-section">
             <div class="container">
                 <h2>目录 | Contents</h2>
                 <p class="section-subtitle">点击卡片，开启你的探索之旅。</p>
                 <div class="directory-grid">
-                    <!-- 你的目录卡片... -->
                     <a href="pages/computer.html" class="card">
-                        <i class="fa-solid fa-book-open"></i>
+                        <i class="fa-solid fa-laptop"></i>
                         <h3>电脑选择</h3>
                         <p>这将是你大学奋斗的重要工具</p>
                     </a>
                     <a href="pages/ai.html" class="card">
-                        <i class="fa-solid fa-utensils"></i>
+                        <i class="fa-solid fa-robot"></i>
                         <h3>AI</h3>
                         <p>欢迎来到AI时代</p>
                     </a>
                     <a href="pages/drive license.html" class="card">
-                        <i class="fa-solid fa-users"></i>
+                        <i class="fa-solid fa-id-card"></i>
                         <h3>驾照</h3>
                         <p>你的第一份国家级证书，请签收</p>
                     </a>
                     <a href="pages/latex.html" class="card">
-                        <i class="fa-solid fa-graduation-cap"></i>
+                        <i class="fa-solid fa-square-root-variable"></i>
                         <h3>LaTex</h3>
                         <p>理工科论文小助手</p>
                     </a>
@@ -85,7 +79,6 @@
             </div>
         </section>
 
-        <!-- Section 3: 关于 (About) -->
         <section id="about" class="content-section-dark">
             <div class="container">
                 <h2>关于 | About</h2>
@@ -98,7 +91,6 @@
         </section>
     </main>
 
-    <!-- 底部版权 -->
     <footer>
         <div class="container footer-content">
             <p>© 2024 你的大学生活指北. All Rights Reserved.</p>
@@ -108,9 +100,9 @@
             </a>
         </div>
     </footer>
-    
-    <!-- 引入 Typed.js 库 -->
+
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
